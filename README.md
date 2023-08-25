@@ -39,3 +39,11 @@ Pour générer la documentation, taper la commande :
 > npm run doc
 
 La documentation de l'API est disponible dans le repertoire [./docs/doc](https://ignf-ma-carte.github.io/mcviewer/doc/) du projet.
+
+# LICENCE
+
+Copyright (c) 2023 IGN-France
+
+Open Source JavaScript, released under the [GPL-3 License](./LICENSE).
+
+Important notice : Please note that the logos, images and graphic elements associated with IGN and the French Republic, present in this project, are protected by copyright and are not covered by the open source licence of this code. The use of these elements is subject to applicable laws and regulations and must be carried out in compliance with the rights and permissions granted by the respective owners
