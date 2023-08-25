@@ -10,6 +10,11 @@ Voir la section générale [Installation & développement](https://github.com/IG
 Une instance de test de l'application est disponible dans le répertoire `./docs` du projet.   
 Vous pouvez test les derniers [développements en ligne](https://ignf-ma-carte.github.io/mcviewer/?map=4abe44d25ec0a28b7159b27cd25ce476).
 
+NB: l'instance de test est branchée sur la base de donnée de [qualification du site Ma carte](https://macarte-qualif.ign.fr/). Vous devez avoir un compte sur cette base pour certaines opérations.
+
+You can test the last [dev online](https://ignf-ma-carte.github.io/mcviewer/?map=4abe44d25ec0a28b7159b27cd25ce476).   
+NB: tests use the qualification instance and may [have an account](https://macarte-qualif.ign.fr/) on it for some tests.
+
 # Map IFrame API
 
 Le viewer embarque une IFrame API permettant de piloter la carte depuis une iFrame.
