@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Ma carte</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="description" content="Maps" />
+  <meta name="keywords" content="" />
+
+  <link rel="icon" type="image/png" href="./img/logo.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="translucent-black">
+  <link rel="apple-touch-icon" href="./img/logo.png">
+  <link rel="apple-touch-startup-image" href="./img/logo.png">
+
+  <meta name="format-detection" content="telephone=no"> 
+  <meta name="msapplication-tap-highlight" content="no">   
+
+  <!-- API -->
+  <script type="text/javascript" src="http://localhost:1234/MapIFrameAPI.js"></script>
+
+  <style>
+    h1,
+    iframe {
+      position: fixed;
+      inset: 0;
+      border: 0;
+    }
+    h1 {
+      margin: 0;
+      padding: 0 1em;
+      bottom: unset;
+    }
+    iframe {
+      top: 2.5em;
+      width: 100%;
+      height: calc(100% - 2.5em);
+    }
+  </style>
+</head>
+<body>
+  <!-- Map div -- >
+  <iframe id="map" src="http://localhost:1234/?map=4abe44d25ec0a28b7159b27cd25ce476"></iframe>
+  <iframe id="map" src="http://localhost:1234/?map=21adec3709a4a95b64fafe4406c9de5e"></iframe>
+  <!-- -->
+  <iframe id="map"></iframe>
+  <!-- -->
+
+  <h1>iFrameAPI</h1>
+
+<script>
+  location.search.replace(/^\?/,'').split('&').forEach(s => {
+    var c = s.split('=')
+    if (c[0]==='map') document.querySelector('iframe').src = 'http://localhost:1234/?map='+c[1]
+  })
+  MapIFrameAPI.ready('map', function(api) {
+    window.mapAPI = api;
+    setTimeout(function() {
+      document.querySelector('iframe').addEventListener('load', function() {
+        location.reload();
+      })
+    }, 500)
+  })
+</script>
+
+</body>

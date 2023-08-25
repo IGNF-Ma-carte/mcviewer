@@ -1,0 +1,55 @@
+body[data-active="0"]:after,
+body[data-valid="0"]:after {
+  content: "";
+  width: 100%;
+  height: 10px;
+  position: absolute;
+  background: repeating-linear-gradient(
+    -45deg,
+    #f5c329,
+    #f5c329 10px,
+    #000 10px,
+    #000 20px
+  )
+}
+body[data-active="0"]:before,
+body[data-valid="0"]:before {
+  content: "Carte inactive";
+  position: absolute;
+  font-size: 2em;
+  z-index: 1;
+  padding: 0 1em;
+  background-color: #f5c329;
+  color: #000;
+  border: 5px solid#f5c329;
+  box-shadow: inset 2px -2px  #000, inset -2px -2px  #000;
+  border-top: 0;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  border-radius: 0 0 .5em .5em;
+  font-weight: bold;
+}
+body[data-valid="0"]:before {
+  content: "Carte invalide";
+}
+
+.ol-ext-check span {
+  width: 1.5em;
+  height: 1.5em;
+  color: #fff;
+  background-color: transparent;
+  border: 1px solid #999;
+}
+.ol-ext-check:hover span {
+  background-color: #ddd;
+}
+.ol-ext-check span:before {
+  font-size: 1.2em;
+  color: #666;
+}
+.ol-ext-checkbox input:checked ~ span:before {
+  box-shadow: inset -0.2em -0.2em currentColor;
+}
+  

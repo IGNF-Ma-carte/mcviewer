@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>MapIFrameAPI Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+	<link type="text/css" rel="stylesheet" href="index.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">MapIFrameAPI</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="api.html">api</a></li><li><a href="MapIFrameAPI.html">MapIFrameAPI</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="api.html#.event:edit">api.event:edit</a></li><li><a href="api.html#.event:move">api.event:move</a></li><li><a href="api.html#.event:select">api.event:select</a></li><li><a href="api.html#.event:step">api.event:step</a></li><li><a href="api.html#event:button">api#event:button</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html">Global</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h1>Macarte iFrameAPI</h1>
+<p>Macarte iFrameAPI vous permet d'intégrer un widget d'une carte produite sur le site <a href="https://macarte.ign.fr">Ma carte</a> sur votre site Web et de le contrôler à l'aide de JavaScript.<br>
+L'intégration des cartes se fait via une balise <code>&lt;iframe&gt;</code>, la configuration de la carte se fait simplement, de manière interactive sur le site <a href="https://macarte.ign.fr">Ma carte</a>.</p>
+<p>Les fonctions de l'API JavaScript vous permettent d'afficher une carte, de controler sa position et son contenu et de récupérer des informations liées à cette carte. Vous pouvez également ajouter des écouteurs d'événements qui s'exécutent en réponse à certains événements déclenchés sur la carte tels qu'un déplacement ou une sélection d'objet par exemple.</p>
+<p>Ce guide décrit le fonctionnement de l'iFrame API. Il présente les différents types d'événements que l'API peut envoyer et explique comment définir des écouteurs d'événements pour y répondre. Il présente également en détail les différentes fonctions JavaScript que vous pouvez appeler pour contrôler la carte, ainsi que les paramètres de la carte que vous pouvez utiliser pour la personnaliser.</p>
+<h2>🛠️ Configuration requise</h2>
+<p>L'utilisateur final doit utiliser un navigateur compatible avec la fonctionnalité <code>postMessage</code> de HTML5. Les navigateurs les plus récents sont compatibles avec <code>postMessage</code>.</p>
+<p>La taille de la fenêtre d'affichage des cartes intégrés doit être suffisante pour que celle-ci s'affiche correctement.</p>
+<p>Les pages Web qui utilisent l'iFrameAPI doivent également mettre en œuvre la fonction JavaScript permettant de récupérer l'API : <a href="MapIFrameAPI.html#ready">MapIFrameAPI.ready</a>.
+Cette fonction permet de récupérer l'API lorsque la carte a terminé de se charger, ce qui vous permet de l'utiliser sur votre page.</p>
+<h2>📜 Premiers pas</h2>
+<p>L'exemple de page HTML ci-dessous permet d'afficher une carte intégrée et de récupérer l'API associée à cette carte. Les commentaires numérotés dans le code HTML sont expliqués dans la liste apparaissant sous l'exemple.</p>
+<pre class="prettyprint source lang-html"><code>&lt;!DOCTYPE html>
+&lt;html>
+  &lt;head>
+    &lt;title>Ma carte&lt;/title>
+    &lt;!-- 1. Charger le code de l'API -->
+    &lt;script type=&quot;text/javascript&quot; src=&quot;https://macarte.ign.fr/carte/MapIFrameAPI.js&quot;>&lt;/script>
+  &lt;/head>
+
+  &lt;body>
+    &lt;!-- 2. &lt;iframe> qui va contenir la carte a afficher -->
+    &lt;iframe id=&quot;map&quot; src=&quot;https://macarte.ign.fr/carte/MAP_ID/CARTE_TITLE&quot; width=&quot;100%&quot; height=&quot;400&quot;>&lt;/iframe>
+
+    &lt;script>
+    // Variable globale
+    var mapAPI = null;
+    // 3. Récupération de l'API lorsque la carte est chargée
+    MapIFrameAPI.ready('map', function(api) {
+      // 4. Récupération de l'API pour un accès global
+      mapAPI = api;
+      // 5. Center la carte sur Paris
+      mapAPI.setCenter([2.33, 48.85]);
+      // 6. Placer un écouteur pour récupérer les objets sélectionnés
+      mapAPI.on('select', function(sel) {
+        console.log(sel);
+      })
+    })
+    &lt;/script>
+  &lt;/body>
+&lt;/html>
+</code></pre>
+<p>Cet exemple de code est expliqué plus en détail dans la liste ci-dessous :</p>
+<ol>
+<li>La ligne qui suit permet de charger le code de l'API afin de pouvoir l'utiliser sur votre page. Il expose la variable <a href="MapIFrameAPI.html">MapIFrameAPI</a>.</li>
+<li>La balise <code>&lt;iframe&gt;</code> permet d'insérer une carte sur votre page web à l'emplacement que vous avez choisi.<br>
+<code>MAP_ID</code> correspond à l'identifiant de publication de la carte que vous voulez intégrer. Vous devez donc au préalable avoir créer la carte à afficher sur le site <a href="https://macarte.ign.fr">Ma carte</a>.</li>
+<li>La fonction <a href="MapIFrameAPI.html#ready">MapIFrameAPI.ready</a> permet d'être informé lorsque la carte est chargée et que l'API est prète à être utilisée.<br>
+Elle prend 2 arguments :
+<ul>
+<li>le premier argument indique l'iframe sur laquelle il faut brancher l'API. C'est soit l'élément lui même soit son identifiant.</li>
+<li>le second argument est une fonction de rappel qui sera exécutée lorsque l'API est disponible, et qui transmet la variable d'API à utiliser par la suite.</li>
+</ul>
+</li>
+<li>La ligne suivante permet de sauvegarder l'API dans une variable globale pour y avoir accès plus simplement (facultatif)</li>
+<li>La fonction <code>setCenter</code> de l'API permet de centrer la carte à une longitude, latitude donnée. Dans l'exemple, on se centre sur Paris.</li>
+<li>A la ligne suivante, nous allons brancher un écouteur pour être averti lorsqu'un objet est sélectionné. Le premier argument est le type d'évènement qu'on écoute (<code>select</code>), le second une fonction qui renvoit un tableau d'objet sélectionné au format GeoJSON.</li>
+</ol>
+<h2>⌨️ Fonctionnalités</h2>
+<h3>Récupération de l'API</h3>
+<p>Vous devez récupérer l'API au moyen de la méthode <a href="MapIFrameAPI.html#ready">MapIFrameAPI.ready</a> en lui indiquant l'iFrame sur laquelle on veut se brancher et qui en retour vous renverra l'API à utiliser par la-suite (notée <code>mapAPI</code> dans la suite).</p>
+<h3>Utilisation de l'API</h3>
+<p>Pour communiquer avec l'iFrame, utilisez les <a href="api.html">fonctionnalités disponibles dans l'API</a>.</p>
+<p>Elles sont de la forme <code>functionality(options)</code> ou si on attend une réponse <code>functionality([options], callback)</code>. Callback est une fonction de rapelle qui transmettra l'information, dans ce cas les options sont facultatives et peuvent ne pas être demandées.</p>
+<p>Il est également possible de brancher des écouteurs pour être informé lorsqu'un évènement se produit sur la carte au moyen de la méthode <a href="api.html#on">on</a>. Vous pouvez débrancher un écouteur à l'aide de <a href="api.html#un">un</a>.</p></article>
+    </section>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div class="search-doc  col-md-3">
+				<input id="toc-search" type="search" placeholder="search..." />
+			</div>
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+
+<footer>
+
+
+	<span class="copyright">
+	IGN &copy; DSI/SDM/RDS
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a>
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+<script src="index.js"></script>
+
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : false,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+
+</body>
+</html>

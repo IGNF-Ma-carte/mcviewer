@@ -1,0 +1,90 @@
+/** MapIFrameAPI lets you retrieve a new api associated to an iframe.
+@namespace MapIFrameAPI
+*/
+
+/**
+ * Get the api instance for an iframe when the map is ready.
+ * @function ready
+ * @memberof MapIFrameAPI
+ * @instance
+ * @param {Element|string} elt the iframe element or its ID
+ * @param {function} callback a function with the api as argument
+ * @example
+MapIFrameAPI.ready('map', function(api) {
+  // Do something with the api...
+}
+ */
+
+/**
+ * The api version number.
+ * @type {string}
+ * @name version
+ * @memberof MapIFrameAPI
+ * @instance
+ */
+
+/** The api instance returned as argument using the [MapIFrameAPI.ready]{@link MapIFrameAPI#ready} function.
+ * @namespace api
+ */
+
+/** Listen to an event
+ * @memberof api
+ * @method on
+ * @param {string} event event name
+ * @param {function} listener
+ * @listens api.move
+ * @listens api.select
+ * @instance
+ */
+/** Remove an event listener
+ * @memberof api
+ * @method un
+ * @param {string} event event name
+ * @param {function} listener
+ * @instance
+ */
+
+/** A feature in a GeoJSON format
+ * @typedef {Object} GeoJSONFeature
+ * @property {string} type 'feature'
+ * @property {JSONGeometry} gometry feature geometry
+ * @property {Object} properties a list of properties as key/value
+ */
+/** JSON Geometry format
+ * @typedef {Object} JSONGeometry
+ * @property {string} type Geometry type: 'Point', 'LineString', 'Polygon', 'MultiPoint', 'MultiLineString', or 'MultiPolygon'
+ * @property {JSONCoordinate|Array<JSONCoordinate>|Array<Array<JSONCoordinate>>} coordinates list of coordinates
+ */
+/** An array of numbers representing a lon,lat coordinate. Example: [16, 48].
+ * @typedef {Array<number>} JSONCoordinate
+ */
+
+/** Condition for object selection
+ * @typedef {Object} Condition
+ * @property {number} [layerId] the layer to search in, default use the first layer
+ * @property {string} attr name of attribute to test
+ * @property {string} op operation name:  '=','!=','<', '<=', '>=', '>', 'contain', '!contain', 'regexp' or '!regexp'
+ * @property {*} val value to test
+ * @property {boolean} [matchAll=false] match all conditions
+ * @property {boolean} [useCase=false] case sensitive
+ */
+
+/** Layer desciption as JSON object
+ * @typedef {Object} JSONLayer
+ * @property {number} id layer ID
+ * @property {string} name layer name
+ * @property {string} title layer title
+ * @property {string} description layer description
+ * @property {string} type 'image' or 'vector'
+ * @property {boolean} visible layer visibility
+ * @property {boolean} opacity layer opacity [0,1]
+ * @property {boolean} displayInLayerSwitcher the layer appears in the layer switcher or not
+ * @property {string} theme layer theme
+ * @property {boolean} inview the layer is displayed in the thematic layer
+ */
+
+/** Result of a filtering
+ * @typedef {Object} filterResult
+ * @property {number} nb number of features filtered (other features in the layer are hidden)
+ * @property {number} size total number of feaures
+ */

@@ -1,0 +1,168 @@
+{
+ "param": {
+  "lon": 2.3689643577712625,
+  "lat": 48.8447022390358,
+  "zoom": 13.017411296673211,
+  "rot": 0,
+  "controlParams": {
+   "zoomBtn": false,
+   "scaleLine": false,
+   "pSearchBar": true,
+   "legend": true,
+   "coords": true,
+   "selectLayer": false,
+   "geoloc": true,
+   "profil": true,
+   "printDlg": false
+  },
+  "proj": {
+   "valeur": "EPSG:4326"
+  }
+ },
+ "legende": {
+  "legendtitle": "Légende",
+  "lineHeight": 32,
+  "legendWidth": 300,
+  "legendVisible": true,
+  "legendParam": {
+   "width": 300,
+   "lineHeight": 32
+  },
+  "legendPos": "bottom-left",
+  "legend": []
+ },
+ "layers": [
+  {
+   "id": 1,
+   "type": "Geoportail",
+   "name": "Plan IGN",
+   "title": "Plan IGN",
+   "visibility": true,
+   "opacity": 1,
+   "description": "Cartographie multi-échelles sur le territoire national, issue des bases de données vecteur de l’IGN, mis à jour régulièrement et réalisée selon un processus entièrement automatisé. Version actuellement en beta test",
+   "copyright": "",
+   "grayscale": false,
+   "blendMode": "",
+   "minZoom": null,
+   "maxZoom": null,
+   "layer": "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2"
+  },
+  {
+   "dessin": true,
+   "id": 2,
+   "type": "Vector",
+   "name": "Dessin",
+   "title": "Dessin",
+   "visibility": true,
+   "opacity": 1,
+   "copyright": "",
+   "selectable": true,
+   "popupContent": {},
+   "grayscale": false,
+   "blendMode": "",
+   "minZoom": null,
+   "maxZoom": null,
+   "style": [],
+   "mode": "vector",
+   "features": [
+    {
+     "type": "LineString",
+     "coords": [
+      [
+       269079.084,
+       6246956.321
+      ],
+      [
+       274739.975,
+       6242223.445
+      ]
+     ],
+     "attributes": {},
+     "style": {},
+     "popupcontent": {
+      "active": false
+     }
+    },
+    {
+     "type": "LineString",
+     "coords": [
+      [
+       268267.071,
+       6244937.889
+      ],
+      [
+       269473.49,
+       6245425.096
+      ],
+      [
+       270262.303,
+       6244589.883
+      ],
+      [
+       271909.53,
+       6245146.692
+      ],
+      [
+       274183.166,
+       6243893.872
+      ],
+      [
+       275273.584,
+       6242733.853
+      ]
+     ],
+     "attributes": {},
+     "style": {},
+     "popupcontent": {
+      "active": false
+     }
+    },
+    {
+     "type": "Polygon",
+     "coords": [
+      [
+       [
+        268073.191,
+        6246399.255
+       ],
+       [
+        264070.626,
+        6246399.255
+       ],
+       [
+        264070.626,
+        6249854.299
+       ],
+       [
+        268073.191,
+        6249854.299
+       ],
+       [
+        268073.191,
+        6246399.255
+       ]
+      ]
+     ],
+     "attributes": {},
+     "style": {},
+     "popupcontent": {
+      "active": false
+     }
+    },
+    {
+     "type": "Point",
+     "coords": [
+      261030.943,
+      6248683.737
+     ],
+     "attributes": {},
+     "style": {},
+     "popupcontent": {
+      "active": false
+     }
+    }
+   ]
+  }
+ ],
+ "symbolLib": []
+}

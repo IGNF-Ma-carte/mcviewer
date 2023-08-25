@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  web:
+    image: macarte_mcviewer:latest
+    build: .
+    container_name: macarte_mcviewer
+    restart: always
+    ports: 
+      - 8084:8080

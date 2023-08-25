@@ -1,0 +1,29 @@
+#toc {
+  top: 100px;
+}
+.search-doc {
+  position: fixed;
+  top: 62px;
+  right: 0;
+  padding: 0 5px;
+}
+.search-doc input {
+  width: 100%;
+  font-size: 1em;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+.hidden {
+  display: none;
+}
+a.header {
+  background-color: rgba(47, 164, 231, .2);
+  padding-left: 7px;
+}
+a.header0 {
+  background-color: rgba(47, 164, 231, .8);
+  padding-left: 7px;
+  font-weight: bold;
+  color: #fff;
+  font-size: 1.3em;
+}

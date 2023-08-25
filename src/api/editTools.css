@@ -1,0 +1,50 @@
+.ol-button.disabled button {
+  opacity: .3;
+  pointer-events: none!important;
+}
+
+.ol-ext-dialog.attributes form {
+  width: 30em;
+}
+.ol-ext-dialog.attributes ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ol-ext-dialog.attributes li {
+  margin-bottom: 1em;
+}
+
+.ol-ext-dialog.attributes ul label,
+.ol-ext-dialog.attributes ul textarea,
+.ol-ext-dialog.attributes ul select,
+.ol-ext-dialog.attributes ul input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.ol-ext-dialog.attributes ul select {
+  font-size: 1em;
+  padding: .5em;
+}
+.ol-ext-dialog.attributes ul input {
+  font-size: 1em;
+  padding: 0 .5em;
+  line-height: 2.1em;
+}
+.ol-ext-dialog.attributes ul input[type="number"] {
+  padding-right: 0;
+}
+
+.ol-ext-dialog.attributes ul textarea {
+  line-height: 1.4em;
+  height: 4.5em;
+  min-height: 3.1em;
+  padding: .1em .5em;
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.ol-ext-dialog.attributes input:invalid {
+  box-shadow: 0 0 5px red;
+  border-color: transparent;
+}

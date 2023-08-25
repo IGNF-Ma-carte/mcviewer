@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Ma carte</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="description" content="Maps" />
+  <meta name="keywords" content="" />
+
+  <link rel="icon" type="image/png" href="./img/logo.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="translucent-black">
+  <link rel="apple-touch-icon" href="./img/logo.png">
+  <link rel="apple-touch-startup-image" href="./img/logo.png">
+
+  <meta name="format-detection" content="telephone=no"> 
+  <meta name="msapplication-tap-highlight" content="no">   
+
+  <!-- API -->
+  <script type="text/javascript" src="http://localhost:1234/MapIFrameAPI.js"></script>
+
+  <style>
+    div,
+    iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 50%;
+      height: 100%;
+      border: 0;
+    }
+    div {
+      left: 50%;
+      padding: .5em;
+      border-left: 8px dashed #800;
+      box-sizing: border-box;
+    }
+    ul {
+      margin: .5em 0;
+      padding: 0 0 0 1em;
+      list-style: none;
+      border-left: 8px solid #369;
+    }
+    li {
+      padding: .5em 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Map div -- >
+  <iframe id="map" src="http://localhost:1234/?map=4abe44d25ec0a28b7159b27cd25ce476"></iframe>
+  <iframe id="map" src="http://localhost:1234/?map=21adec3709a4a95b64fafe4406c9de5e"></iframe>
+  <!-- -->
+  <iframe id="map" src="http://localhost:1234/?map=82da24b61ba1abd8dd575d1e73d1a808"></iframe>
+  <!-- -->
+
+  <div>
+    <p>
+      iFrameAPI pour piloter une carte Ma carte sur un autre site.
+    </p>
+    <ul>
+      <li>
+        Centrer sur : <select onchange="if (this.value) mapAPI.setCenter(JSON.parse(this.value))">
+          <option value="">Position</option>
+          <option value="[2.33, 48.85]">Paris</option>
+          <option value="[4.85, 45.75]">Lyon</option>
+          <option value="[5.38, 43.28]">Marseille</option>
+        </select>        
+      </li>
+      <li>
+        Aller à : <select onchange="goto(this.value)">
+          <option value="">Position</option>
+          <option value="[2.33, 48.85]">Paris</option>
+          <option value="[4.85, 45.75]">Lyon</option>
+          <option value="[5.38, 43.28]">Marseille</option>
+        </select>        
+      </li>
+      <li>
+        Zoom : <input type="range" onchange="mapAPI.setZoom(this.value)" min="0" max="18" value="3" style="vertical-align: middle;" />
+        <br/>
+        <!-- show center in console -->
+        <button onclick="mapAPI.getCenter(function(p){ alert('lon: '+p[0]+'\nlat: '+p[1]) })">Get Center</button>
+      </li>
+      <li>
+        <!-- show popup -->
+        Popup: 
+        <button onclick="mapAPI.popup({ position: [2.33, 48.85], content: '**Paris**\n!(https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg/640px-La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg)'})">
+          Paris
+        </button>
+        <button onclick="mapAPI.popup({ position: [4.85, 45.75], content: '**Lyon**\n!(https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Coucher_de_soleil_sur_la_Basilique_Notre-Dame_de_Fourvi%C3%A8re.jpg/640px-Coucher_de_soleil_sur_la_Basilique_Notre-Dame_de_Fourvi%C3%A8re.jpg)'})">
+          Lyon
+        </button>
+        <button onclick="mapAPI.popup({ position: [5.38, 43.28], content: '**Marseille**\n!(https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Notre_Dame_de_la_Garde.jpg/640px-Notre_Dame_de_la_Garde.jpg)'})">
+          Marseille
+        </button>
+      </li>
+    </ul>
+    Selection :
+    <img style="display: block; margin: auto;" />
+  </div>
+
+<script>
+
+MapIFrameAPI.ready('map', function(api) {
+  window.mapAPI = api;
+  
+  // A new object is selected
+  mapAPI.on('select', function(sel) {
+    console.log(sel);
+    if (sel.length) {
+      document.querySelector('img').src = sel[0].properties.id+'.thumbnail';
+    } else {
+      document.querySelector('img').src = '';
+    }
+  })
+  
+  // Map has moved
+  mapAPI.on('move', function(pos) {
+    console.log(pos)
+  });
+
+  mapAPI.getFeatures({
+    attr: 'date',
+    op: '=',
+    val: '1951'
+  }, console.log)
+});
+
+function goto(value) {
+  if (!value) return;
+  value = JSON.parse(value);
+  mapAPI.moveTo({
+    destination: value,
+    zoom: value[2],
+    type: 'flyTo'
+  })
+}
+
+</script>
+
+</body>
