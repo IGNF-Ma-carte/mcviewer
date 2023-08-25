@@ -1,6 +1,8 @@
 # mcviewer
 Macarte viewer application
 
+C'est l'application utilisée pour afficher les carte sur le site Ma carte.
+
 ## Installation et développement
 
 Voir la section générale [Installation & développement](https://github.com/IGNF-Ma-carte/.github/blob/main/DEVELOPING.md)
