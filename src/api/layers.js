@@ -50,18 +50,25 @@ api.setAPI({
     let layer;
     if (options.id) {
       layer = story.getCarte().getMap().getLayers().getArray().find(l => l.get('id') == options.id);
-      if (options.visible !== undefined) layer.setVisible(options.visible);
-      if (options.opacity !== undefined) layer.setOpacity(options.opacity);
-      ['displayInLayerSwitcher', 'title'].forEach(k => {
-        if (options[k] !== undefined) layer.set(k, options[k])
-      })
-      // In view
-      if (options.inview !== undefined) {
-        if (!options.inview) layer.setVisible(false)
-        layer.set('inview', options.inview)
+      if (layer) {
+        if (options.visible !== undefined) {
+          layer.setVisible(options.visible);
+          // Force inview if visible
+          if (options.visible) options.inview = true;
+        }
+        if (options.opacity !== undefined) layer.setOpacity(options.opacity);
+        ['displayInLayerSwitcher', 'title'].forEach(k => {
+          if (options[k] !== undefined) layer.set(k, options[k])
+        })
+        // In view
+        if (options.inview !== undefined) {
+          layer.set('inview', options.inview)
+          // hide if not inview
+          if (!options.inview) layer.setVisible(false)
+        }
+        // refresh switcher
+        story.getCarte().getControl('layerSwitcher').drawPanel()
       }
-      // refresh switcher
-      story.getCarte().getControl('layerSwitcher').drawPanel()
     }
     return exportLayer(layer)
   },
