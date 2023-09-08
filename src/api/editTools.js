@@ -135,7 +135,7 @@ api.setAPI({
    * @param {Object} options
    *  @param {number} [options.layerId] layer to draw in, if none create a ghost one
    *  @param {Array<string>} [options.tools] a list of tools to add, 
-   *    if none get all tools ['Select','DrawPoint','DrawLine','DrawPolygon','DrawRegular','Transform','Attributes','Delete','Export']
+   *    if none get all tools ['Select','DrawPoint','DrawLine','DrawPolygon','DrawRegular','Transform','Attributes','Delete','Export','Import']
    * @param {function} callback a callback function with the layer to draw in or an error code
    * @instance
    */
