@@ -1,6 +1,12 @@
 # mcviewer
 Macarte viewer application
 
+![](https://img.shields.io/github/v/release/IGNF-Ma-carte/mcviewer)
+![](https://img.shields.io/github/stars/IGNF-Ma-carte/mcviewer)
+![](https://img.shields.io/github/commit-activity/m/IGNF-Ma-carte/mcviewer)
+![](https://img.shields.io/github/contributors/IGNF-Ma-carte/mcviewer)
+![](https://img.shields.io/github/license/IGNF-Ma-carte/mcviewer)
+
 C'est l'application utilisée pour afficher les carte sur le site Ma carte.
 
 ## Installation et développement
