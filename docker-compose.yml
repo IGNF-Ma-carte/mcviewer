@@ -7,4 +7,4 @@ services:
     container_name: macarte_mcviewer
     restart: always
     ports: 
-      - 8084:8080
+      - 8080:8080
