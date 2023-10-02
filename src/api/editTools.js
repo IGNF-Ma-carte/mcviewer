@@ -121,7 +121,7 @@ let buttonId = 0;
  * @memberof api
  * @event edit
  * @property {Object} edit the map position
- *  @property {string} edit.action select, addfeature, removefeature, modifyfeature or attributes
+ *  @property {string} edit.action select, addfeature, drawend, removefeature, modifyfeature or attributes
  *  @property {Array<GeoJSONFeature>} edit.features 
  *  @property {Array<string>} edit.attributes list of modified attributes
  *  @property {number} edit.layerId 
@@ -179,6 +179,11 @@ api.setAPI({
           if (interaction) {
             interaction.on('drawend', e => {
               e.feature.setLayer(drawLayer)
+              api.postMessage('edit', {
+                action: e.message,
+                features: getGeoJSON(e.features),
+                layerId: layerId
+              })
               dialogAttributes(e.feature)
             })
           }
