@@ -140,6 +140,7 @@ api.setAPI({
    * @instance
    */
   addEditBar: (options) => {
+    options = options || {};
     const layer = story.getCarte().getMap().getLayers().getArray().find(l => l.get('id') == options.layerId);
     if (!layer || layer.get('type') === 'Vector') {
       const layerId = layer ? layer.get('id') : null;
@@ -180,14 +181,26 @@ api.setAPI({
             interaction.on('drawend', e => {
               e.feature.setLayer(drawLayer)
               api.postMessage('edit', {
-                action: e.message,
-                features: getGeoJSON(e.features),
+                action: e.type,
+                features: getGeoJSON([e.feature]),
                 layerId: layerId
               })
               dialogAttributes(e.feature)
             })
           }
         });
+        // Transform
+        const transform = tbar.getSubBar().getInteraction('Transform');
+        if (transform) {
+          transform.on(['rotateend', 'translateend', 'scaleend'], e => {
+            api.postMessage('edit', {
+              action: e.type,
+              features: getGeoJSON([e.feature]),
+              layerId: layerId
+            })
+          })
+        }
+        // Select
         const select = tbar.getSubBar().getInteraction('Select')
         // Edit attributes
         if (select && options.tools && options.tools.indexOf('Attributes') >= 0) {

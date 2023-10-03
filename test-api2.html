@@ -21,16 +21,18 @@
   <script type="text/javascript" src="http://localhost:1234/MapIFrameAPI.js"></script>
 
   <style>
-    h1,
+    .content,
     iframe {
       position: fixed;
       inset: 0;
       border: 0;
     }
+    .content {
+      bottom: unset;
+    }
     h1 {
       margin: 0;
       padding: 0 1em;
-      bottom: unset;
     }
     iframe {
       top: 2.5em;
@@ -48,12 +50,19 @@
   <iframe id="map"></iframe>
   <!-- -->
 
-  <h1>iFrameAPI</h1>
+  <div class="content">
+    <h1>iFrameAPI</h1>
+    <p></p>
+  </div>
 
 <script>
   location.search.replace(/^\?/,'').split('&').forEach(s => {
     var c = s.split('=')
-    if (c[0]==='map') document.querySelector('iframe').src = 'http://localhost:1234/?map='+c[1]
+    if (c[0]==='map') {
+      document.querySelector('iframe').src = 'http://localhost:1234/?map='+c[1]
+    } else {
+      document.querySelector('.content p').innerHTML = 'parameter map is missing'
+    }
   })
   MapIFrameAPI.ready('map', function(api) {
     window.mapAPI = api;
