@@ -2,6 +2,7 @@ import api from './api'
 import { getGeoJSON } from './api'
 import story from '../storymap'
 import VectorStyle from 'mcutils/layer/VectorStyle';
+import Statistic from 'mcutils/layer/Statistic';
 import SelectBase from 'ol-ext/control/SelectBase'
 import ol_ext_element from 'ol-ext/util/element'
 
@@ -40,7 +41,7 @@ story.on('read', () => {
   // Select interaction
   map = story.getCarte().getMap();
   map.getLayers().forEach(l => {
-    if (l instanceof VectorStyle) {
+    if (l instanceof VectorStyle || l instanceof Statistic) {
       selector[l.get('id')] = new SelectBase({
         source: l.getSource(),
         content: ol_ext_element.create('DIV')
