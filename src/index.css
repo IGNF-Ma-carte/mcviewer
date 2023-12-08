@@ -72,3 +72,5 @@ body[data-valid="0"]:before {
 .ol-ext-dialog.layer-info.exportable .ol-buttons button:hover {
   background-color: rgba(0,60,136,.1);
 }
+.ol-ext-dialog.layer-info.exportable .ol-buttons button:hover {
+}
