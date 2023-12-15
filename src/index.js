@@ -13,6 +13,7 @@ import './api/layers'
 import './api/etape'
 import './api/editTools'
 import './api/dialog'
+import './api/mapControl.js'
 
 // Story is loadeded => connect api
 story.on('read', () => {
