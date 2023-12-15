@@ -31,8 +31,7 @@ L'exemple de page HTML ci-dessous permet d'afficher une carte intégrée et de r
 
   <body>
     <!-- 2. <iframe> qui va contenir la carte a afficher -->
-    <iframe id="map" src="https://macarte.ign.fr/carte/MAP_ID/CARTE_TITLE" width="100%" height="400"></iframe>
-
+    <iframe id="map" src="https://macarte.ign.fr/carte/MAP_ID/CARTE_TITLE" width="100%" height="480px" allow="geolocation clipboard-read clipboard-write"></iframe>
     <script>
     // Variable globale
     var mapAPI = null;
