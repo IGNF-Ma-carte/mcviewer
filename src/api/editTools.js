@@ -121,7 +121,7 @@ let buttonId = 0;
  * @memberof api
  * @event edit
  * @property {Object} edit the map position
- *  @property {string} edit.action select, addfeature, drawend, removefeature, modifyfeature or attributes
+ *  @property {string} edit.action select, addfeature, drawend, removefeature, modifyfeature, attributes, import:start, import:end, export:start, export:end
  *  @property {Array<GeoJSONFeature>} edit.features 
  *  @property {Array<string>} edit.attributes list of modified attributes
  *  @property {number} edit.layerId 
@@ -147,6 +147,14 @@ api.setAPI({
       // Add draw tools
       const tbar = addDrawTools(story.getCarte(), options.tools, layer)
       story.getCarte().showControl('toolbar');
+      // Import events
+      tbar.on(['import:start', 'import:end', 'export:start', 'export:end'], e => {
+        api.postMessage('edit', {
+          action: e.type,
+          nb: e.nb,
+          layerId: layerId
+        })
+      })
       // Event handler
       const drawLayer = tbar.get('layer')
       if (drawLayer) {
