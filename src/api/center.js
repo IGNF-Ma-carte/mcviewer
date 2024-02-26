@@ -1,5 +1,6 @@
 import api from './api'
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj'
+import { isEmpty } from 'ol/extent'
 import story from '../storymap'
 // Add flyTo
 import 'ol-ext/util/View'
@@ -23,13 +24,33 @@ api.setAPI({
         view.setCenter(center);
         if (data.zoom) view.setZoom(data.zoom);
       } else if (data.extent) {
+        // Center to extent
         const extent = transformExtent(data.extent, 'EPSG:4326', view.getProjection())
-        view.fit(extent, story.getCarte().getMap().getSize())
-        if (data.zoom && view.getZoom() > data.zoom) {
-          view.setZoom(data.zoom);
+        if (extent && !isEmpty(extent)) {
+          view.fit(extent, story.getCarte().getMap().getSize())
+          if (data.zoom && view.getZoom() > data.zoom) {
+            view.setZoom(data.zoom);
+          }
         }
+      } else if (data.layerId) {
+        // Center to layer content
+        story.getCarte().getMap().getLayers().forEach(l => {
+          if (l.get('id') === data.layerId) {
+            let extent;
+            if (l.getSource() && l.getSource().getExtent) {
+              extent = l.getSource().getExtent()
+            }
+            if (!extent && l.getExtent) {
+              extent = l.getExtent()
+            }
+            if (extent && !isEmpty(extent)) {
+              view.fit(extent, story.getCarte().getMap().getSize())
+            }
+          }
+        });
       }
     }
+    return toLonLat(story.getCarte().getMap().getView().getCenter());
   },
   
   /** Move map to place
