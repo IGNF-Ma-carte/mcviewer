@@ -1,6 +1,6 @@
 import api from './api'
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj'
-import { isEmpty } from 'ol/extent'
+import { extend, isEmpty, createEmpty } from 'ol/extent'
 import story from '../storymap'
 // Add flyTo
 import 'ol-ext/util/View'
@@ -45,9 +45,20 @@ api.setAPI({
             }
             if (extent && !isEmpty(extent)) {
               view.fit(extent, story.getCarte().getMap().getSize())
+              if (data.offsetZoom) view.setZoom(view.getZoom() + data.offsetZoom);
             }
           }
         });
+      } else if (data.selection) {
+        const features = story.getCarte().getSelect().getFeatures();
+        let extent = createEmpty();
+        features.forEach(f => {
+          extend(extent, f.getGeometry().getExtent())
+        })
+        if (!isEmpty(extent)) {
+          view.fit(extent, story.getCarte().getMap().getSize())
+          if (data.offsetZoom) view.setZoom(view.getZoom() + data.offsetZoom);
+        }
       }
     }
     return toLonLat(story.getCarte().getMap().getView().getCenter());
