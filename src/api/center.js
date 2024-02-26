@@ -1,5 +1,5 @@
 import api from './api'
-import { fromLonLat, toLonLat } from 'ol/proj'
+import { fromLonLat, toLonLat, transformExtent } from 'ol/proj'
 import story from '../storymap'
 // Add flyTo
 import 'ol-ext/util/View'
@@ -8,13 +8,28 @@ import 'ol-ext/util/View'
 api.setAPI({
   /** Change map center
    * @memberof api
-   * @param {Array<number>} center an array of longitude, latitude and zoom (optional)
+   * @param { Array<number> | centerOptions } center an array of [longitude, latitude and zoom (optional)] or center options
    * @instance
    */
   setCenter: data => {
-    const center = fromLonLat([data[0], data[1]]);
-    story.getCarte().getMap().getView().setCenter(center);
-    if (data[2]) story.getCarte().getMap().getView().setZoom(data[2]);
+    const view = story.getCarte().getMap().getView();
+    if (Array.isArray(data)) {
+      const center = fromLonLat([data[0], data[1]]);
+      view.setCenter(center);
+      if (data[2]) view.setZoom(data[2]);
+    } else {
+      if (data.center) {
+        const center = fromLonLat(data.center);
+        view.setCenter(center);
+        if (data.zoom) view.setZoom(data.zoom);
+      } else if (data.extent) {
+        const extent = transformExtent(data.extent, 'EPSG:4326', view.getProjection())
+        view.fit(extent, story.getCarte().getMap().getSize())
+        if (data.zoom && view.getZoom() > data.zoom) {
+          view.setZoom(data.zoom);
+        }
+      }
+    }
   },
   
   /** Move map to place

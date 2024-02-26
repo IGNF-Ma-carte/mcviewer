@@ -88,3 +88,11 @@ MapIFrameAPI.ready('map', function(api) {
  * @property {number} nb number of features filtered (other features in the layer are hidden)
  * @property {number} size total number of feaures
  */
+
+/** Center options
+ * @typedef {Object} centerOptions
+ * @property {Array<number>} [center] [longitude,latitude]
+ * @property {number} [zoom] zoom level if center or max zoom if extent
+ * @property {Array<number>} [extent] the extent to fit [lonMin, latMin, lonMax, latMax] 
+ * @property {number} [layerId] id of a layer to fit if zoom is defined use it as max zoom
+ */
