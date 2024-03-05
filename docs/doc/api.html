@@ -443,7 +443,8 @@
             
 
             <td class="description last"><p>a list of tools to add,
-if none get all tools ['Select','DrawPoint','DrawLine','DrawPolygon','DrawRegular','Transform','Attributes','Delete','Export','Import']</p></td>
+if none get tools ['Select','DrawPoint','DrawLine','DrawPolygon','DrawRegular','Transform','Attributes','Delete','Export','Import']
+but not 'DrawHole','Split','Offset'</p></td>
         </tr>
 
     
@@ -1975,6 +1976,270 @@ If attr option is missing all features will be selected</p>
     
 
     
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="layout"><span class="type-signature"></span>layout(options)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Change the map layout</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6 class="method-params-label method-subparams-label">Properties</h6>
+                
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>css</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>full text css declaration</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>jcss</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>css declaration as an array [selector, { prop: value }]</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>styleURI</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>url to a css file</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">api.layout({ css: &#x27;.ol-control button { background-color: red!important; font-size: 2em; }&#x27; });api.layout({ jcss: [&#x27;button&#x27;,  { &quot;background-color&quot;: &quot;red!important&quot;, &quot;font-size&quot;: &quot;2em&quot; } ]});api.layout({ styleURI: &#x27;http://server.fr/style.css&#x27; });</pre>
+
 
     
 </dd>
