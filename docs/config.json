@@ -3,16 +3,12 @@
   "viewer": "https://ignf-ma-carte.github.io/mcviewer/?map=$ID&$NOTITLE",
   "editor": "https://qlf-macarte.ign.fr/$TYPE/$ID",
   "userProfile": "https://qlf-macarte.ign.fr/utilisateur/$NAME",
-  "sitePiwik": 239,
-  "gppKey": "0gd4sx9gxx6ves3hf3hfeyhw",
-  "edugeoKey": "1mgehldv90vifl6s5ksf900i",
   "atlas": {
     "path": "./cartes/",
     "maps": {
       "test": {
         "title": "test",
-        "url": "test.carte"
-      }
+        "url": "test.carte"      }
     }
   }
 }
