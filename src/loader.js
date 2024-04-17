@@ -31,8 +31,8 @@ function loadMap(story, params) {
   // Get the map
   api.getMap(params.mapID, (e) => {
     if (e.error) {
-      loader.hide();
-      story.dispatchEvent({ type: 'error' })
+      e.type = 'error';
+      story.dispatchEvent(e)
       return;
     }
     if (e.premium === 'edugeo') story.set('key', config.edugeoKey)

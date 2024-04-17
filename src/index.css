@@ -35,6 +35,55 @@ body[data-valid="0"]:before {
   content: "Carte invalide";
 }
 
+body [data-role="connect"] {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background-color: #eee;
+}
+body [data-role="connect"][data-visible] {
+  display: block;
+}
+
+body [data-role="connect"] form {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  padding: 1em;
+  width: 100%;
+  max-width: 20em;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+@media (max-width: 500px) {
+  body [data-role="connect"] form {
+    font-size: 1em;
+  }
+}
+body [data-role="connect"] p {
+  margin: 0;
+  margin-bottom: .5em;
+}
+body [data-role="connect"] input {
+  font-size: 1em;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: .5em;
+  padding: .5em;
+}
+body [data-role="connect"] input[type="text"],
+body [data-role="connect"] input[type="password"] {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: .5em 1em;
+}
+
+
 .ol-ext-check span {
   width: 1.5em;
   height: 1.5em;

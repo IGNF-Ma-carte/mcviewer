@@ -3,13 +3,12 @@ import config from 'mcutils/config/config'
 import StoryMap from 'mcutils/StoryMap'
 import { getUrlParameter, hasUrlParameter } from 'mcutils/control/url'
 import loader from 'mcutils/dialog/loader'
-import VectorStyle from 'mcutils/layer/VectorStyle'
 import ProgressBar from 'ol-ext/control/ProgressBar.js'
-
 import dialog from 'mcutils/dialog/dialog'
 import serviceURL from 'mcutils/api/serviceURL'
 
 import { loadFile, loadMap } from './loader.js'
+import connect from './connect.js'
 
 import './index.css'
 
@@ -37,14 +36,17 @@ elt.innerHTML = 'consulter l\'atlas...<i class="fa fa-external-link"></i>';
 elt.href = config.atlasUrl || serviceURL.search;
 
 // Load from map param
-if (!loadMap(story, params)) {
-  // If no map, load from file param / show error
-  if (!loadFile(story, params)) {
-    setTimeout(() => {
-      story.dispatchEvent({ type: 'error' })
-    })
+function loadFromParams() {
+  if (!loadMap(story, params)) {
+    // If no map, load from file param / show error
+    if (!loadFile(story, params)) {
+      setTimeout(() => {
+        story.dispatchEvent({ type: 'error' })
+      })
+    }
   }
 }
+loadFromParams();
 
 // Action when readed
 story.on('read', () => {
@@ -80,7 +82,7 @@ story.on('read', () => {
     }
   })
 
-/* OPTIONS */
+/* OPTIONS * /
 
   // Load layer as images
   if (getUrlParameter('mode')==='image') {
@@ -117,6 +119,10 @@ story.on('read', () => {
 
 // Error
 story.on('error', e => {
+  if (e.status === 403) {
+    connect(loadFromParams);
+    return;
+  }
   loader.hide();
   if (e.recursive) {
     dialog.show404('Le modèle onglet ne peut pas contenir une carte onglet', 'Impossible de charger la carte')
