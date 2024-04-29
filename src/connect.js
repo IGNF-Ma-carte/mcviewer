@@ -5,6 +5,7 @@ const inputName = connectDlg.querySelector('input.name');
 const inputPwd = connectDlg.querySelector('input.pwd');
 let loadFromParams;
 
+// Dialog
 function showDlg(b) {
   if (b===false) {
     delete connectDlg.dataset.visible;
@@ -12,6 +13,8 @@ function showDlg(b) {
     connectDlg.dataset.visible = '';
   }
 }
+
+// New submit
 connectDlg.addEventListener('submit', e => {
   e.stopPropagation();
   e.preventDefault();
@@ -26,6 +29,9 @@ connectDlg.addEventListener('submit', e => {
   })
 })
 
+/** Connection dialog
+ * @param {function} cback
+ */
 function connect(cback) {
   loadFromParams = cback;
   showDlg();
