@@ -127,6 +127,11 @@ let buttonId = 0;
  *  @property {number} edit.layerId 
  */
 
+/** Event when a user button is clicked in the edit bar
+ * @memberof api
+ * @event button
+ */
+
 // Add new functions
 api.setAPI({
   /** Add a new Editbar associated with a layer
