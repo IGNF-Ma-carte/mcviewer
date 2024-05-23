@@ -248,7 +248,7 @@ api.setAPI({
   
   /** Add a new nexw button in the Editbar
    * @memberof api
-   * @event button
+   * @fires button
    * @param {Object} [options]
    *  @param {string} [options.title] button title
    *  @param {string} [options.name] button name, default will increment a new one
