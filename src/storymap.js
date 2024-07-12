@@ -143,11 +143,14 @@ story.on('read', () => {
         rotation: view.getRotation() 
       }, '*');
     })
-    window.addEventListener('message', function(e) {
-      if (e.data.type === 'centermap') {
-        if (Object.prototype.hasOwnProperty.call(e.data, 'center')) view.setCenter(e.data.center)
-        if (Object.prototype.hasOwnProperty.call(e.data, 'zoom')) view.setZoom(e.data.zoom)
-        if (Object.prototype.hasOwnProperty.call(e.data, 'rotation')) view.setRotation(e.data.rotation)
+    window.addEventListener('message', e => {
+      switch(e.data.type) {
+        case 'centermap': {
+          if (Object.prototype.hasOwnProperty.call(e.data, 'center')) view.setCenter(e.data.center)
+          if (Object.prototype.hasOwnProperty.call(e.data, 'zoom')) view.setZoom(e.data.zoom)
+          if (Object.prototype.hasOwnProperty.call(e.data, 'rotation')) view.setRotation(e.data.rotation)
+          break;
+        }
       }
     })
   }
