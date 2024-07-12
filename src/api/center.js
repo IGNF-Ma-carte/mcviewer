@@ -13,6 +13,17 @@ api.setAPI({
    * @instance
    */
   setCenter: data => {
+    // Onglet model
+    if (story.get('model') === 'onglet') {
+      const t = story.getTab(story.getSelectTabIndex())
+      if (data) {
+        data.type = 'centermap';
+        if (data.center) data.center = fromLonLat(data.center)
+        t.iframe.contentWindow.postMessage(data, '*')
+      }
+      return;
+    }
+    // Get center
     const view = story.getCarte().getMap().getView();
     if (Array.isArray(data)) {
       const center = fromLonLat([data[0], data[1]]);
@@ -74,6 +85,10 @@ api.setAPI({
    * @instance
    */ 
   moveTo: data => {
+    // Model onglet
+    if (!story.getCarte()) {
+      return;
+    }
     story.getCarte().getMap().getView().takeTour([{
       center: fromLonLat([data.destination[0], data.destination[1]]),
       zoom: data.zoom,
@@ -88,6 +103,10 @@ api.setAPI({
    * @instance
    */ 
   getCenter: function() {
+    // Model onglet
+    if (!story.getCarte()) {
+      return;
+    }
     return toLonLat(story.getCarte().getMap().getView().getCenter());
   },
 
@@ -97,6 +116,10 @@ api.setAPI({
    * @instance
    */
   setZoom: function(data) {
+    // Model onglet
+    if (!story.getCarte()) {
+      return;
+    }   
     story.getCarte().getMap().getView().setZoom(data);
   },
 
@@ -107,6 +130,10 @@ api.setAPI({
    * @instance 
    */
   getZoom: function() {
+    // Model onglet
+    if (!story.getCarte()) {
+      return;
+    }
     return story.getCarte().getMap().getView().getZoom()
   }
 })
