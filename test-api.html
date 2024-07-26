@@ -52,6 +52,7 @@
   <!-- Map div -- >
   <iframe id="map" src="http://localhost:1234/?map=4abe44d25ec0a28b7159b27cd25ce476"></iframe>
   <iframe id="map" src="http://localhost:1234/?map=21adec3709a4a95b64fafe4406c9de5e"></iframe>
+  <iframe id="map" src="http://localhost:1234/?map=pRjrha"></iframe>
   <!-- -->
   <iframe id="map" src="http://localhost:1234/?map=82da24b61ba1abd8dd575d1e73d1a808"></iframe>
   <!-- -->
@@ -126,6 +127,10 @@ MapIFrameAPI.ready('map', function(api) {
     op: '=',
     val: '1951'
   }, console.log)
+
+  /** /
+  api.addEditBar({layerId: 3, tools: ['Select','DrawPoint','Attributes', 'Export']})
+  /**/
 });
 
 function goto(value) {

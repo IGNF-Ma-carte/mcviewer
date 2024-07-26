@@ -31,10 +31,14 @@ function dialogAttributes(feature) {
           change: () => changed[attr.name] = sel.value,
           parent: li
         })
-        attr.values.split('|').forEach(v => {
+        let values = attr.values
+        if (typeof(values) === 'string') values = values.split('|');
+        const isArray = Array.isArray(values)
+        const keys = isArray ? values : Object.keys(values)
+        keys.forEach(k => {
           element.create('OPTION', {
-            text: v,
-            value: v,
+            text: isArray ? k : values[k],
+            value: k,
             parent: sel
           })
         })
