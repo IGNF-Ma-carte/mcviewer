@@ -3,6 +3,7 @@
   "server-1": "https://macarte.mut-dev.ign.fr/",
   "server-2": "https://localhost.ign.fr/macartegpf-api/",
   "viewer": "https://ignf-ma-carte.github.io/mcviewer/?map=$ID&$NOTITLE",
+  "viewer1": "http://localhost:1234/?map=$ID&$NOTITLE",
   "editor": "https://qlf-macarte.ign.fr/$TYPE/$ID",
   "userProfile": "https://qlf-macarte.ign.fr/utilisateur/$NAME",
   "atlas": {
