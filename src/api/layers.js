@@ -125,17 +125,19 @@ api.setAPI({
    * @instance 
    */
   addLayer: (options) => {
-    const format = new CarteFormat;
-    delete options.layerOptions.id;
-    const layer = format.readLayer(options.layerOptions)
-    if (layer) {
-      if (options.position >= 0) {
-        story.getCarte().getMap().getLayers().insertAt(options.position, layer)
-      } else {
-        story.getCarte().getMap().addLayer(layer)
+    try {
+      const format = new CarteFormat;
+      delete options.layerOptions.id;
+      const layer = format.readLayer(options.layerOptions)
+      if (layer) {
+        if (options.position >= 0) {
+          story.getCarte().getMap().getLayers().insertAt(options.position, layer)
+        } else {
+          story.getCarte().getMap().addLayer(layer)
+        }
+        return exportLayer(layer)
       }
-      return exportLayer(layer)
-    }
+    } catch(e) { /* ok */ }
     return false;
   },
 
