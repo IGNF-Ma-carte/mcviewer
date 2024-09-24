@@ -119,9 +119,10 @@ api.setAPI({
   /** Insert a new layer on the map
    * @memberof api
    * @param {Object} options
-   *  @param {number} [position] position in the layer switcher, default on top
-   *  @param {Object} layerOptions layer options as in .carte
+   *  @param {number} [options.position] position in the layer switcher, default on top
+   *  @param {Object} options.layerOptions layer options as in .carte
    * @param {function} callback a callback function that takes a {@link JSONLayer} 
+   * @instance 
    */
   addLayer: (options) => {
     const format = new CarteFormat;
@@ -142,6 +143,7 @@ api.setAPI({
    * @memberof api
    * @param {number} layerId
    * @param {function} callback a callback function that takes a boolean
+   * @instance 
    */
   removeLayer: (layerId) => {
     const layer = story.getCarte().getMap().getLayers().getArray().find(l => l.get('id') == layerId)
