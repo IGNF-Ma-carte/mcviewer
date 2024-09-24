@@ -1,6 +1,7 @@
 import api from './api'
 import story from '../storymap';
 import GeoJSONFormat from 'ol/format/GeoJSON'
+import CarteFormat from 'mcutils/format/Carte'
 
 function exportLayer(l) {
   if (!l) return null;
@@ -113,7 +114,44 @@ api.setAPI({
       return { error: !layer ? 'BadLayer' : 'BadLayerType' }
     }
 
+  },
+
+  /** Insert a new layer on the map
+   * @memberof api
+   * @param {Object} options
+   *  @param {number} [position] position in the layer switcher, default on top
+   *  @param {Object} layerOptions layer options as in .carte
+   * @param {function} callback a callback function that takes a {@link JSONLayer} 
+   */
+  addLayer: (options) => {
+    const format = new CarteFormat;
+    delete options.layerOptions.id;
+    const layer = format.readLayer(options.layerOptions)
+    if (layer) {
+      if (options.position >= 0) {
+        story.getCarte().getMap().getLayers().insertAt(options.position, layer)
+      } else {
+        story.getCarte().getMap().addLayer(layer)
+      }
+      return exportLayer(layer)
+    }
+    return false;
+  },
+
+  /** Remove a layer from the map
+   * @memberof api
+   * @param {number} layerId
+   * @param {function} callback a callback function that takes a boolean
+   */
+  removeLayer: (layerId) => {
+    const layer = story.getCarte().getMap().getLayers().getArray().find(l => l.get('id') == layerId)
+    if (layer) {
+      story.getCarte().getMap().removeLayer(layer)
+      return true
+    }
+    return false
   }
+
 });
 
 export { exportLayer }
