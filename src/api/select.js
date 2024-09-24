@@ -111,6 +111,7 @@ api.setAPI({
   /** Delete selected features
    * @memberof api
    * @param {function} [callback] a function that takes the number of features deleted
+   * @instance 
    */
   deleteSelection: () => {
     const select = story.getCarte().getInteraction('select');
