@@ -23,7 +23,7 @@
   "author": "IGNF",
   "license": "GPL-3",
   "dependencies": {
-    "mcutils": "github:IGNF-Ma-carte/mcutils"
+    "mcutils": "git+https://github.com/IGNF-Ma-carte/mcutils.git#multi-select"
   },
   "staticFiles": {
     "staticPath": "./assets",
