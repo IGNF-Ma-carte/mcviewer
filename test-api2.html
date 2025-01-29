@@ -67,6 +67,7 @@
   })
   MapIFrameAPI.ready('map', function(api) {
     window.mapAPI = api;
+    api.addEditBar()
     setTimeout(function() {
       document.querySelector('iframe').addEventListener('load', function() {
         location.reload();
