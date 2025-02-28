@@ -54,6 +54,13 @@ story.on('read', () => {
   select.on('select', () => {
     if (api.id > 0) {
       const selected = getGeoJSON(select.getFeatures(), map.getView().getProjection());
+      console.log(selected)
+      // Clusters
+      selected.forEach(f => {
+        if (Array.isArray(f.properties.features)) {
+          f.properties.features = f.properties.features.length
+        }
+      })
       api.postMessage('select', selected);
     }
   });
