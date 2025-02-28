@@ -2,6 +2,7 @@ import api from './api'
 import story from '../storymap';
 import GeoJSONFormat from 'ol/format/GeoJSON'
 import CarteFormat from 'mcutils/format/Carte'
+import ol_format_Guesser from 'mcutils/format/Guesser';
 
 function exportLayer(l) {
   if (!l) return null;
@@ -44,6 +45,7 @@ api.setAPI({
    *  @param {boolean} [options.opacity] layer opacity
    *  @param {boolean} [options.displayInLayerSwitcher] display the layer in the switcher
    *  @param {string} [options.title] layer title
+   *  @param {string} [options.url] layer url (only for external file layer)
    * @instance 
    */
   setLayer: (options) => {
@@ -66,6 +68,23 @@ api.setAPI({
           layer.set('inview', options.inview)
           // hide if not inview
           if (!options.inview) layer.setVisible(false)
+        }
+        // Replace file url
+        if (options.url && layer.get('type') === 'file') {
+          // Read features
+          fetch(options.url)
+          .then(resp => resp.text())
+          .then(data => {
+            const format = new ol_format_Guesser();
+            const features = format.readFeatures(data, {
+              featureProjection: 'EPSG:3857',
+              extractStyles: layer.get('extractStyles')
+            })
+            layer.getSource().clear();
+            layer.set('url', options.url);
+            layer.getSource().addFeatures(features);
+          })
+          .catch(() => {})
         }
         // refresh switcher
         story.getCarte().getControl('layerSwitcher').drawPanel()
