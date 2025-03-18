@@ -34,6 +34,7 @@ function selectFeatures(data) {
 /** Listen to new selection
  * @memberof api
  * @event select
+ * @event select:show
  * @property {Array<GeoJSONFeature>} selection an array of features in a GeoJSON format
  */
 story.on('read', () => {
@@ -56,13 +57,18 @@ story.on('read', () => {
       const selected = getGeoJSON(select.getFeatures(), map.getView().getProjection());
       // Clusters
       selected.forEach(f => {
-        if (Array.isArray(f.properties.features)) {
+        if (f.properties && Array.isArray(f.properties.features)) {
           f.properties.features = f.properties.features.length
         }
       })
       api.postMessage('select', selected);
     }
   });
+  // Show feature
+  select.on('select:show', (e) => {
+    const selected = e.shown_feature ? getGeoJSON([e.shown_feature]) : [];
+    api.postMessage('select:show', selected[0]);
+  })
 })
 
 // Add feature selection
