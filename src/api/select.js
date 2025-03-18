@@ -34,8 +34,12 @@ function selectFeatures(data) {
 /** Listen to new selection
  * @memberof api
  * @event select
- * @event select:show
  * @property {Array<GeoJSONFeature>} selection an array of features in a GeoJSON format
+ */
+/** Listen to new feature show
+ * @memberof api
+ * @event select:show
+ * @property {GeoJSONFeature} The current feature shown in a GeoJSON format
  */
 story.on('read', () => {
   if (!story.getCarte()) return;
