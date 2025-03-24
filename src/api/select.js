@@ -71,6 +71,12 @@ story.on('read', () => {
   // Show feature
   select.on('select:show', (e) => {
     const selected = e.shown_feature ? getGeoJSON([e.shown_feature]) : [];
+    // Clusters
+    selected.forEach(f => {
+      if (f.properties && Array.isArray(f.properties.features)) {
+        f.properties.features = f.properties.features.length
+      }
+    })
     api.postMessage('select:show', selected[0]);
   })
 })
