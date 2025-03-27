@@ -1,6 +1,6 @@
 {
   "name": "mcviewer",
-  "version": "4.4.7",
+  "version": "4.5.0",
   "description": "Visualiseur de carte",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,7 +23,7 @@
   "author": "IGNF",
   "license": "GPL-3",
   "dependencies": {
-    "mcutils": "git+https://github.com/IGNF-Ma-carte/mcutils.git"
+    "mcutils": "git+https://github.com/IGNF-Ma-carte/mcutils.git#ol10"
   },
   "staticFiles": {
     "staticPath": "./assets",
