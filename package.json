@@ -1,6 +1,6 @@
 {
   "name": "mcviewer",
-  "version": "4.5.2",
+  "version": "4.5.3",
   "description": "Visualiseur de carte",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
