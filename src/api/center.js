@@ -78,7 +78,7 @@ api.setAPI({
   /** Move map to place
    * @memberof api
    * @param {Object} position the position to move to
-   *  @param {Array<number>} position.center an array of longitude, latitude
+   *  @param {Array<number>} position.destination an array of longitude, latitude
    *  @param {number} position.zoom
    *  @param {number} position.rotation
    *  @param {string} position.type the type of movement use 'flyTo' to have a fly to effect
