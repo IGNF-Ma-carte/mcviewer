@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Ma carte</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="description" content="Maps" />
+  <meta name="keywords" content="" />
+
+  <link rel="icon" type="image/png" href="./img/logo.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="translucent-black">
+  <link rel="apple-touch-icon" href="./img/logo.png">
+  <link rel="apple-touch-startup-image" href="./img/logo.png">
+
+  <meta name="format-detection" content="telephone=no"> 
+  <meta name="msapplication-tap-highlight" content="no">   
+
+  <!-- API -->
+  <script type="text/javascript" src="https://macarte.ign.fr/carte/MapIFrameAPI.js"></script>
+
+  <style>
+    .content,
+    iframe {
+      position: fixed;
+      inset: 0;
+      border: 0;
+    }
+    .content {
+      bottom: unset;
+    }
+    h1 {
+      margin: 0;
+      padding: 0 1em;
+    }
+    iframe {
+      top: 2.5em;
+      width: 100%;
+      height: calc(100% - 2.5em);
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: transparent;
+      z-index: 1000;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Map div -->
+  <iframe id="map" src="https://macarte.ign.fr/carte/hMUCH3/Memoire-14-18"></iframe>
+  <div id="overlay" class="overlay"></div>
+  
+  <div class="content">
+    <h1>iFrameAPI</h1>
+    <button id="showNearest" style="margin: 10px;">Raconte-moi une histoire</button>
+    <p></p>
+  </div>
+
+  <script>
+    MapIFrameAPI.ready('map', function(api) {
+      window.mapAPI = api;
+      console.log('mapAPI is ready!')
+      
+      // Fonction pour centrer la carte sur une feature avec un délai
+      function centerOnFeatures(features) {
+        let index = 0;
+        const delay = 3000; // 3 secondes entre chaque feature
+        
+        // Activer l'overlay pour bloquer les interactions
+        document.getElementById('overlay').style.display = 'block';
+        
+        function centerOnNextFeature() {
+          if (index >= features.length) {
+            console.log('Parcours terminé');
+            // Désactiver l'overlay
+            document.getElementById('overlay').style.display = 'none';
+            return;
+          }
+
+          
+          const feature = features[index];
+          if (feature.geometry.type === 'Point') {
+            const coord = feature.geometry.coordinates;
+            mapAPI.moveTo({
+              destination: coord,
+              zoom: 16,
+              type: index === 0 ? 'flyTo' : 'moveTo'
+            });
+
+            // Création du contenu de la popup
+            let popupContent = '';
+            if (feature.properties.COM) {
+              popupContent += `## ${feature.properties.COM}`;
+              if (feature.properties.REG) {
+                popupContent += ` (${feature.properties.REG})`;
+              }
+              popupContent += '\n';
+            }
+            if (feature.properties['VIDEO-p']) {
+              popupContent += `|\t![Image](${feature.properties['VIDEO-p']})\n`;
+            }
+            if (feature.properties.LEG) {
+              popupContent += `${feature.properties.LEG}\n----\n`;
+            }
+            if (feature.properties.COPY) {
+              popupContent += `© ${feature.properties.COPY}\n`;
+            }
+            if (feature.properties.AUTP) {
+              popupContent += `Photo: ${feature.properties.AUTP}\n`;
+            }
+
+            // Affichage de la popup
+            mapAPI.popup({
+              position: coord,
+              content: popupContent
+            });
+
+            console.log(`Centrage sur la feature ${index + 1}/${features.length}`);
+            index++;
+            setTimeout(centerOnNextFeature, delay);
+          } else {
+            index++;
+            centerOnNextFeature();
+          }
+        }
+        
+        centerOnNextFeature();
+      }
+
+      // Ajout du gestionnaire d'événement sur le bouton
+      document.getElementById('showNearest').addEventListener('click', function() {
+        getNearestFeatures(10, function(nearest) {
+          console.log('10 features les plus proches du centre:', nearest);
+          centerOnFeatures(nearest);
+        });
+      });
+    })
+  
+    // Fonction pour calculer la distance entre deux points [lon, lat]
+    function getDistance(coord1, coord2) {
+      const toRad = deg => deg * Math.PI / 180;
+      const R = 6371e3; // Rayon de la Terre en mètres
+      const [lon1, lat1] = coord1;
+      const [lon2, lat2] = coord2;
+      const phi1 = toRad(lat1);
+      const phi2 = toRad(lat2);
+      const deltaPhi = toRad(lat2 - lat1);
+      const deltaLambda = toRad(lon2 - lon1);
+      const a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) +
+                Math.cos(phi1) * Math.cos(phi2) *
+                Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+  
+    // Fonction pour récupérer les n features les plus proches du centre
+    function getNearestFeatures(count = 10, callback) {
+      if (!mapAPI) {
+        console.error('API non initialisée');
+        callback([]);
+        return;
+      }
+  
+      mapAPI.getCenter(function(center) {
+        mapAPI.getFeatures({ layerId: 4 }, function(features) {
+          if (!features || !features.length) {
+            console.log('Aucune feature trouvée');
+            callback([]);
+            return;
+          }
+          // On calcule la distance de chaque feature au centre
+          const featuresWithDistance = features.map(f => {
+            let coord;
+            if (f.geometry.type === 'Point') {
+              coord = f.geometry.coordinates;
+            } else {
+              coord = [0,0];
+            }
+            return {
+              feature: f,
+              distance: getDistance(center, coord)
+            };
+          });
+          // On trie par distance croissante
+          featuresWithDistance.sort((a, b) => a.distance - b.distance);
+          // On prend les n premiers
+          const nearest = featuresWithDistance.slice(0, count).map(fd => fd.feature);
+          callback(nearest);
+        });
+      });
+    }
+</script>
+</body>
