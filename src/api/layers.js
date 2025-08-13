@@ -104,8 +104,10 @@ api.setAPI({
    */
   addLayerFeatures: (options) => {
     const layer = story.getCarte().getMap().getLayers().getArray().find(l => l.get('id') == options.id)
-    if (layer && layer.get('type') === 'Vector') {
+    // Update features
+    if (layer && layer.getSource && layer.getSource().addFeatures) {
       const source = layer.getSource();
+      // Clear
       if (options.clear) {
         source.clear();
       }
@@ -126,8 +128,13 @@ api.setAPI({
             source.addFeatures(features)
           } catch(e) { /* oops */ }
         }
-
       }
+      // Calculate statisitic (if some)
+      if (layer.setStatistic) {
+        const stat = layer.getStatistic()
+        layer.setStatistic(stat);
+      }
+      // OK
       return { read: features.length, length: source.getFeatures().length }
     } else {
       return { error: !layer ? 'BadLayer' : 'BadLayerType' }

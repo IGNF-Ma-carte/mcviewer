@@ -58,6 +58,7 @@
 <script>
   location.search.replace(/^\?/,'').split('&').forEach(s => {
     var c = s.split('=')
+    console.log(c)
     if (c[0]==='map') {
       document.querySelector('iframe').src = 'http://localhost:1234/?map='+c[1]
     } else {
