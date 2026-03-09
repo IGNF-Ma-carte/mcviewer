@@ -15,6 +15,8 @@ function exportLayer(l) {
     opacity: l.getOpacity(),
     displayInLayerSwitcher: l.get('displayInLayerSwitcher') !== false,
     theme: l.get('theme') !== false,
+    minZoom: l.getMinZoom(),
+    maxZoom: l.getMaxZoom(),
     inview: l.get('inview'),
     type: l.get('type')
   }
