@@ -77,10 +77,28 @@ story.on('read', () => {
             layers.push(l)
           }
         })
-        pbar.setLayers(layers)
+        pbar.setLayers(layers);
+
+        // Reload layers
+        map.getLayers().forEach(l => {
+          if (l.get('type') === 'file') l.set('reload', 6);
+          if (l.getSource() && l.get('reload') && parseFloat(l.get('reload'))) {
+            const time = parseFloat(l.get('reload')) * 1000;
+            function reload() {
+              if (l.getSource().reload) {
+                l.getSource().reload();
+              } else {
+                l.getSource().refresh();
+              }
+              setTimeout(reload, time);
+            }
+            setTimeout(reload, time);
+          }
+        })
       }
     }
   })
+
 
 /* OPTIONS * /
 
