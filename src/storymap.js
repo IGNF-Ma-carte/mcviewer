@@ -5,6 +5,7 @@ import { getUrlParameter, hasUrlParameter } from 'mcutils/control/url'
 import loader from 'mcutils/dialog/loader'
 import ProgressBar from 'ol-ext/control/ProgressBar.js'
 import dialog from 'mcutils/dialog/dialog'
+import notification from 'mcutils/dialog/notification'
 import serviceURL from 'mcutils/api/serviceURL'
 
 import { loadFile, loadMap } from './loader.js'
@@ -84,6 +85,7 @@ story.on('read', () => {
           if (l.getSource() && l.get('reload') && parseFloat(l.get('reload'))) {
             const time = parseFloat(l.get('reload')) * 1000;
             function reload() {
+              notification.show('Rafraichissement de ' + (l.get('title') || l.get('name')))
               if (l.getSource().reload) {
                 l.getSource().reload();
               } else {
