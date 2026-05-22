@@ -91,6 +91,33 @@ story.on('read', () => {
               } else {
                 l.getSource().refresh();
               }
+              // Handle selected feature
+              const feature = carte.getSelect().getShownFeature();
+              if (feature && feature.getLayer() === l) {
+                l.getSource().once('featuresloadend', () => {
+                  // Clustered features?
+                  if (l.getMode('mode') === 'cluster') {
+                    l.layerCluster_.getSource().getFeatures().forEach(f => {
+                      f.get('features').forEach((ff, index) => {
+                        if (ff.get('stationcode') === feature.get('stationcode')) {
+                          carte.setSelection(f);
+                          // Update popup index
+                          carte.getSelect().setIndex(index);
+                          carte.getSelect().setShownFeature(ff)
+                          const popup = carte.popup;
+                          popup.show(popup.getPosition(), popup._contents, popup._features, index+1);
+                        }
+                      })
+                    })
+                  } else {
+                    l.getSource().getFeatures().forEach(f => {
+                      if (f.get('stationcode') === feature.get('stationcode')) {
+                        carte.setSelection(f);
+                      }
+                    });
+                  }
+                });
+              }
               setTimeout(reload, time);
             }
             setTimeout(reload, time);
