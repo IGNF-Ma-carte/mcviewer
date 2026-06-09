@@ -82,45 +82,50 @@ story.on('read', () => {
 
         // Reload layers
         map.getLayers().forEach(l => {
-          if (l.getSource() && l.get('reload') && parseFloat(l.get('reload'))) {
+          const fid = l.get('reloadId');
+          if (fid && l.getSource() && l.get('reload') && parseFloat(l.get('reload'))) {
             const time = parseFloat(l.get('reload')) * 1000;
+            let feature;
+            // Reload function
             function reload() {
               notification.show('Rafraichissement de ' + (l.get('title') || l.get('name')))
+              feature = carte.getSelect().getShownFeature();
               if (l.getSource().reload) {
                 l.getSource().reload();
               } else {
                 l.getSource().refresh();
               }
-              // Handle selected feature
-              const feature = carte.getSelect().getShownFeature();
-              if (feature && feature.getLayer() === l) {
-                l.getSource().once('featuresloadend', () => {
-                  // Clustered features?
-                  if (l.getMode('mode') === 'cluster') {
-                    l.layerCluster_.getSource().getFeatures().forEach(f => {
-                      f.get('features').forEach((ff, index) => {
-                        if (ff.get('stationcode') === feature.get('stationcode')) {
-                          carte.setSelection(f);
-                          // Update popup index
-                          carte.getSelect().setIndex(index);
-                          carte.getSelect().setShownFeature(ff)
-                          const popup = carte.popup;
-                          popup.show(popup.getPosition(), popup._contents, popup._features, index+1);
-                        }
-                      })
-                    })
-                  } else {
-                    l.getSource().getFeatures().forEach(f => {
-                      if (f.get('stationcode') === feature.get('stationcode')) {
-                        carte.setSelection(f);
-                      }
-                    });
-                  }
-                });
-              }
               setTimeout(reload, time);
             }
             setTimeout(reload, time);
+            // Handle selected feature
+            l.getSource().on(['featuresloadend', 'tileloadend'], () => {
+                if (!feature || feature.getLayer() !== l) return;
+                // Clustered features?
+                if (l.getMode('mode') === 'cluster') {
+                  l.layerCluster_.getSource().getFeatures().forEach(f => {
+                    f.get('features').forEach((ff, index) => {
+                      if (ff !== feature && ff.get(fid) === feature.get(fid)) {
+                        feature = ff;
+                        carte.setSelection(f);
+                        // Update popup index
+                        carte.getSelect().setIndex(index);
+                        carte.getSelect().setShownFeature(ff)
+                        const popup = carte.popup;
+                        popup.show(popup.getPosition(), popup._contents, popup._features, index+1);
+                      }
+                    })
+                  })
+                } else {
+                  l.getSource().getFeatures().forEach(f => {
+                    if (f !== feature && f.get(fid) === feature.get(fid)) {
+                      feature = f;
+                      carte.setSelection(f);
+                      console.log('Feature reloaded', f);
+                    }
+                  });
+                }
+            });
           }
         })
       }
