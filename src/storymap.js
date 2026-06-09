@@ -63,7 +63,7 @@ story.on('read', () => {
   // Display tools
   story.addToolBar();
 
-  // Add progress bar (on load)
+  // Handle load (progress bar + reload)
   [ story.getCarte(0), story.getCarte(1) ].forEach(carte => {
     if (carte) {
       const map =  carte.getMap()
