@@ -102,7 +102,8 @@ story.on('read', () => {
             l.getSource().on(['featuresloadend', 'tileloadend'], () => {
                 if (!feature || feature.getLayer() !== l) return;
                 // Clustered features?
-                if (l.getMode('mode') === 'cluster') {
+                const isClustered = l.layerCluster_ ? l.layerCluster_.getVisible() : false;
+                if (isClustered) {
                   l.layerCluster_.getSource().getFeatures().forEach(f => {
                     f.get('features').forEach((ff, index) => {
                       if (ff !== feature && ff.get(fid) === feature.get(fid)) {
@@ -121,7 +122,6 @@ story.on('read', () => {
                     if (f !== feature && f.get(fid) === feature.get(fid)) {
                       feature = f;
                       carte.setSelection(f);
-                      console.log('Feature reloaded', f);
                     }
                   });
                 }
